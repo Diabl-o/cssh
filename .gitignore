@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.*
+config.yaml
+secrets.enc
+secrets.meta.json
+.vault-key
+*.pem
+*.key
+.DS_Store
