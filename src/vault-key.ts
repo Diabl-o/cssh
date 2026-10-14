@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { readFile, writeFile, access } from "node:fs/promises";
 import { constants } from "node:fs";
 import { VAULT_KEY_FILE } from "./paths.js";
+import { restrictToCurrentUser } from "./file-perms.js";
 
 const KEY_LENGTH = 32;
 
@@ -25,5 +26,6 @@ export async function loadVaultKey(): Promise<Buffer> {
 export async function createVaultKey(): Promise<Buffer> {
   const key = randomBytes(KEY_LENGTH);
   await writeFile(VAULT_KEY_FILE, key, { mode: 0o600 });
+  await restrictToCurrentUser(VAULT_KEY_FILE);
   return key;
 }

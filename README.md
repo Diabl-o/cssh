@@ -7,14 +7,15 @@ Configurable SSH client with encrypted secrets and project-based server selectio
 - **Project / server picker** — run `cssh` and choose where to connect
 - **Direct connect** — `cssh myproject web`
 - **Encrypted vault** — PEM files and private keys stored with AES-256-GCM
-- **Sudo gate** — real OS `sudo` prompt before access (same as `sudo apt`)
+- **OS auth gate** — real `sudo` prompt on Linux/macOS, Windows account password check on Windows
 - **PEM and key auth** — EC2 PEM pairs or ed25519/RSA private keys
 - **No secrets in repo** — config and vault live in `~/.config/cssh/`
 
 ## Install
 
 ```bash
-cd ~/projects/cssh
+git clone https://github.com/Pukar777/cssh.git
+cd cssh
 npm install
 npm run build
 npm link
@@ -73,6 +74,10 @@ projects:
 ```
 
 ## Authentication
+
+**Windows:** there is no `sudo`, so `cssh` asks for your Windows account password in the terminal and verifies it with the OS (3 attempts). Windows Hello PINs don't work here — use the account password. Requires `powershell.exe` and OpenSSH Client (`ssh.exe`) on PATH.
+
+**Linux/macOS:**
 
 `cssh` uses **real sudo** (`sudo -k -v`) — the same `[sudo] password for user:` prompt as `sudo apt`. No separate master password.
 

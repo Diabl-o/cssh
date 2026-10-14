@@ -3,6 +3,7 @@ import { mkdtemp, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { ServerConfig } from "./schema.js";
+import { restrictToCurrentUser } from "./file-perms.js";
 
 export interface SshConnectOptions {
   server: ServerConfig;
@@ -15,6 +16,7 @@ async function writeTempKey(content: Buffer): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), "cssh-"));
   const keyPath = join(dir, "identity");
   await writeFile(keyPath, content, { mode: 0o600 });
+  await restrictToCurrentUser(keyPath, "R");
   return keyPath;
 }
 
